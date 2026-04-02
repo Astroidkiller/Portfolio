@@ -10,6 +10,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="hero3d.js" defer></script>
 </head>
 <body>
   <div class="page-blur blur-1"></div>
@@ -40,69 +50,31 @@
   <main>
     <section id="home" class="hero">
       <div class="container hero-grid">
-        <div class="hero-copy reveal">
-          <p class="eyebrow">VIT-AP • CSE Core • MLC Club</p>
-          <h1>
-            Building <span class="gradient-text">practical AI products</span>
-            with a clean product mindset.
-          </h1>
-          <h2 class="hero-typing">
-            <span id="typedText"></span><span class="cursor">|</span>
-          </h2>
-          <p class="hero-description">
-            I am Yashu Seervi, a Computer Science student at VIT-AP focused on GenAI, LLM applications,
-            RAG workflows, and modern front-end experiences. I like turning ideas into usable demos that feel real,
-            deploy cleanly, and solve an actual problem.
-          </p>
+        <div class="hero-copy">
+          <div id="hero-canvas-container"></div>
+          <h1 class="sr-only">Yashu</h1>
+          
+          <div class="gsap-hero-reveal">
+            <h2 class="hero-tagline">
+              Building <span class="gradient-text">practical AI products</span>
+              <br/>with a clean product mindset.
+            </h2>
+            <p class="eyebrow" style="margin-top:20px;">VIT-AP • CSE Core • MLC Club</p>
+            <p class="hero-description">
+              I am <span class="highlight-name">Yashu Seervi</span>, a Computer Science student at VIT-AP focused on GenAI, LLM applications,
+              RAG workflows, and modern front-end experiences. I like turning ideas into usable demos that feel real,
+              deploy cleanly, and solve an actual problem.
+            </p>
 
-          <div class="hero-pills">
-            <span>GenAI &amp; LLM Section • MLC Club</span>
-            <span>RAG • ChromaDB • Streamlit</span>
-            <span>GitHub Pages • Public Projects</span>
-          </div>
-
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#projects">View Projects</a>
-            <a class="btn btn-secondary" href="https://github.com/Astroidkiller" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
-          </div>
-
-          <div class="social-row">
-            <a href="mailto:yashuseervi55@gmail.com" target="_blank" rel="noopener noreferrer">Email</a>
-            <a href="https://linkedin.com/in/yashu-k-aa017a366" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <a href="https://github.com/Astroidkiller" target="_blank" rel="noopener noreferrer">GitHub</a>
-          </div>
-        </div>
-
-        <div class="hero-panel reveal delay-1">
-          <div class="glass hero-card card-large floating">
-            <div class="hero-card-top">
-              <span class="status-dot"></span>
-              <p>Currently building</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#projects">View Projects</a>
+              <a class="btn btn-secondary" href="https://github.com/Astroidkiller" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
             </div>
-            <h3>AI + Developer Portfolio</h3>
-            <ul class="hero-list">
-              <li>Medical Report Analyzer with chunking, embeddings, ChromaDB, and Groq LLM API</li>
-              <li>MyGov Translator AI for simplified multi-language access to government schemes</li>
-              <li>Student community involvement in GenAI and LLM section at MLC Club</li>
-            </ul>
-          </div>
 
-          <div class="hero-mini-grid">
-            <div class="glass stat-card floating-slow">
-              <span class="stat-value">2+</span>
-              <span class="stat-label">Live Projects</span>
-            </div>
-            <div class="glass stat-card floating-delayed">
-              <span class="stat-value">5 Day</span>
-              <span class="stat-label">Quantum FDP</span>
-            </div>
-            <div class="glass stat-card floating-slow">
-              <span class="stat-value">MLC</span>
-              <span class="stat-label">GenAI &amp; LLM</span>
-            </div>
-            <div class="glass stat-card floating-delayed">
-              <span class="stat-value">2025</span>
-              <span class="stat-label">Buildathon Work</span>
+            <div class="social-row">
+              <a href="mailto:yashuseervi55@gmail.com" target="_blank" rel="noopener noreferrer">Email</a>
+              <a href="https://linkedin.com/in/yashu-k-aa017a366" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+              <a href="https://github.com/Astroidkiller" target="_blank" rel="noopener noreferrer">GitHub</a>
             </div>
           </div>
         </div>
@@ -133,14 +105,7 @@
             </p>
           </article>
 
-          <article class="glass info-card reveal delay-2">
-            <h3>Community</h3>
-            <p>
-              Member of <strong>Machine Learning Club (MLC)</strong>, VIT-AP, in the
-              <strong>GenAI &amp; LLM section</strong>. I use this space to learn, collaborate, and stay close to modern AI work.
-            </p>
-            <a class="inline-link" href="https://www.linkedin.com/company/machinelearningclubvitap/posts/?feedView=all" target="_blank" rel="noopener noreferrer">View club page ↗</a>
-          </article>
+
         </div>
       </div>
     </section>
@@ -229,22 +194,12 @@
               <h3>Engineering Skills</h3>
               <span>Practical confidence</span>
             </div>
-            <div class="skill-meter">
-              <div class="skill-meta"><span>Python</span><span>80%</span></div>
-              <div class="meter"><div class="meter-fill" data-width="80"></div></div>
-            </div>
-            <div class="skill-meter">
-              <div class="skill-meta"><span>HTML / CSS / JavaScript</span><span>86%</span></div>
-              <div class="meter"><div class="meter-fill" data-width="86"></div></div>
-            </div>
-            <div class="skill-meter">
-              <div class="skill-meta"><span>Git &amp; GitHub</span><span>78%</span></div>
-              <div class="meter"><div class="meter-fill" data-width="78"></div></div>
-            </div>
-            <div class="skill-meter">
-              <div class="skill-meta"><span>Deployment</span><span>74%</span></div>
-              <div class="meter"><div class="meter-fill" data-width="74"></div></div>
-            </div>
+            <ul class="project-points" style="margin: 0;">
+              <li>Python</li>
+              <li>HTML / CSS / JavaScript</li>
+              <li>Git &amp; GitHub</li>
+              <li>Deployment</li>
+            </ul>
           </div>
 
           <div class="glass skill-card reveal delay-1">
@@ -252,22 +207,12 @@
               <h3>AI &amp; Product Skills</h3>
               <span>Building momentum</span>
             </div>
-            <div class="skill-meter">
-              <div class="skill-meta"><span>LLM APIs</span><span>84%</span></div>
-              <div class="meter"><div class="meter-fill" data-width="84"></div></div>
-            </div>
-            <div class="skill-meter">
-              <div class="skill-meta"><span>RAG Workflows</span><span>82%</span></div>
-              <div class="meter"><div class="meter-fill" data-width="82"></div></div>
-            </div>
-            <div class="skill-meter">
-              <div class="skill-meta"><span>Embeddings / ChromaDB</span><span>79%</span></div>
-              <div class="meter"><div class="meter-fill" data-width="79"></div></div>
-            </div>
-            <div class="skill-meter">
-              <div class="skill-meta"><span>Streamlit Apps</span><span>88%</span></div>
-              <div class="meter"><div class="meter-fill" data-width="88"></div></div>
-            </div>
+            <ul class="project-points" style="margin: 0;">
+              <li>LLM APIs</li>
+              <li>RAG Workflows</li>
+              <li>Embeddings / ChromaDB</li>
+              <li>Streamlit Apps</li>
+            </ul>
           </div>
 
           <div class="glass chips-card reveal delay-2">
@@ -305,21 +250,7 @@
             <h3>Data Visualisation</h3>
             <p>Worked on practical business-style data interpretation and visualization tasks.</p>
           </article>
-          <article class="glass mini-card reveal">
-            <div class="mini-card-top"><span>White &amp; Case</span><span>2025</span></div>
-            <h3>M&amp;A Virtual Learning</h3>
-            <p>Exposure to commercial thinking, transaction structure, and legal-business analysis.</p>
-          </article>
-          <article class="glass mini-card reveal delay-1">
-            <div class="mini-card-top"><span>CSIR-NIScPR</span><span>2025</span></div>
-            <h3>SVASTIK Quiz</h3>
-            <p>Participated in a scientific and technical quiz focused on knowledge application.</p>
-          </article>
-          <article class="glass mini-card reveal delay-2">
-            <div class="mini-card-top"><span>Student Growth</span><span>Ongoing</span></div>
-            <h3>Continuous Project Building</h3>
-            <p>Learning by building, deploying, and iterating on real student projects with public demos.</p>
-          </article>
+
         </div>
       </div>
     </section>
@@ -345,8 +276,8 @@
               I use GitHub to publish projects, push iterations, and maintain a visible record of my learning through real builds.
             </p>
             <div class="github-stats">
-              <img src="https://github-readme-stats.vercel.app/api?username=Astroidkiller&show_icons=true&hide_border=true&theme=transparent" alt="GitHub stats for Astroidkiller" />
-              <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Astroidkiller&layout=compact&hide_border=true&theme=transparent" alt="Top languages for Astroidkiller" />
+              <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=Astroidkiller&theme=transparent" alt="GitHub stats for Astroidkiller" />
+              <img src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=Astroidkiller&theme=transparent" alt="Top languages for Astroidkiller" />
             </div>
           </article>
 
@@ -379,16 +310,7 @@
             <h3>B.Tech in Computer Science and Engineering</h3>
             <p>Vellore Institute of Technology, Amaravati • Minor in Electronics and Communication Engineering</p>
           </article>
-          <article class="glass timeline-card reveal delay-1">
-            <span class="timeline-date">2025</span>
-            <h3>Class 12 — RBSE</h3>
-            <p>90.20% • Strong academic performance</p>
-          </article>
-          <article class="glass timeline-card reveal delay-2">
-            <span class="timeline-date">2023</span>
-            <h3>Class 10 — RBSE</h3>
-            <p>83.56%</p>
-          </article>
+
         </div>
       </div>
     </section>
