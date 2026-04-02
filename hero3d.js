@@ -57,35 +57,35 @@ document.addEventListener("DOMContentLoaded", () => {
         
         const geometry = new TextGeometry('Yashu', {
             font: font,
-            size: window.innerWidth < 768 ? 2.8 : 3.5,
-            depth: 0.6,
-            curveSegments: 16,
+            size: window.innerWidth < 768 ? 1.2 : 1.8, // Reduced dramatically to fix the clipping
+            depth: 0.2, // Much thinner to avoid depth-clipping
+            curveSegments: 8, // Optimized for lower GPU usage
             bevelEnabled: true,
-            bevelThickness: 0.15,
-            bevelSize: 0.08,
-            bevelOffset: 0.02,
-            bevelSegments: 10
+            bevelThickness: 0.05,
+            bevelSize: 0.03,
+            bevelOffset: 0.0,
+            bevelSegments: 3 // Optimized
         });
         
         geometry.center();
 
-        // --- Exact Apple Liquid Glass iOS 26 Material Requirements ---
+        // --- Exact Apple Liquid Glass iOS 26 Material Requirements (Optimized Version) ---
         const glassMaterial = new THREE.MeshPhysicalMaterial({
             color: 0xffffff,
-            transmission: 1.0,           // Core glass transmission
+            transmission: 1.0,           
             opacity: 1.0,
-            metalness: 0.0,              // Strict non-metallic dielectric
-            roughness: 0.0,              // Perfectly smooth base
-            ior: 1.5,                    // Standard generic glass IOR
-            thickness: 1.2,              // Deep refractive optical volume
-            dispersion: 1.0,             // Crucial native chromatic aberration in r160
-            envMapIntensity: 1.6,        // Strong realistic reflections
-            clearcoat: 1.0,              // Extra liquid top-layer shine
-            clearcoatRoughness: 0.05,    // Sharp clearcoat
-            iridescence: 1.0,            // Vision Pro style shimmer
+            metalness: 0.0,              
+            roughness: 0.05,             // Adds slight micro-facet for better GPU solving
+            ior: 1.5,                    
+            thickness: 0.5,              // Reduced refractive depth to match thinner text and fix massive clipping
+            envMapIntensity: 1.6,        
+            clearcoat: 1.0,              
+            clearcoatRoughness: 0.05,    
+            iridescence: 1.0,            
             iridescenceIOR: 1.3,
             transparent: true,
-            side: THREE.FrontSide        // Clean reflections
+            side: THREE.FrontSide
+            // Note: dispersion removed to fix critical GPU lag on many devices
         });
 
         const textMesh = new THREE.Mesh(geometry, glassMaterial);
