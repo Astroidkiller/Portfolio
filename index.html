@@ -10,16 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-      }
-    }
-  </script>
-  <script type="module" src="hero3d.js" defer></script>
+
 </head>
 <body>
   <div class="page-blur blur-1"></div>
@@ -51,14 +42,11 @@
     <section id="home" class="hero">
       <div class="container hero-grid">
         <div class="hero-copy">
-          <div id="hero-canvas-container"></div>
-          <h1 class="sr-only">Yashu</h1>
-          
-          <div class="gsap-hero-reveal">
-            <h2 class="hero-tagline">
+          <div class="hero-content">
+            <h1 class="hero-tagline">
               Building <span class="gradient-text">practical AI products</span>
               <br/>with a clean product mindset.
-            </h2>
+            </h1>
             <p class="eyebrow" style="margin-top:20px;">VIT-AP • CSE Core • MLC Club</p>
             <p class="hero-description">
               I am <span class="highlight-name">Yashu Seervi</span>, a Computer Science student at VIT-AP focused on GenAI, LLM applications,
