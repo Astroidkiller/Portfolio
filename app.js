@@ -125,7 +125,7 @@ function clearErrors() {
   document.querySelectorAll('.error-text').forEach((item) => item.remove());
 }
 
-contactForm?.addEventListener('submit', (e) => {
+contactForm?.addEventListener('submit', async (e) => {
   e.preventDefault();
   clearErrors();
 
@@ -156,16 +156,50 @@ contactForm?.addEventListener('submit', (e) => {
 
   if (!valid) return;
 
-  const existingBanner = contactForm.querySelector('.success-banner');
-  if (existingBanner) existingBanner.remove();
+  const submitBtn = contactForm.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
+  submitBtn.textContent = 'Sending...';
+  submitBtn.disabled = true;
 
-  const banner = document.createElement('div');
-  banner.className = 'success-banner';
-  banner.textContent = 'Message captured on the page successfully. Email backend integration can be added next.';
-  contactForm.appendChild(banner);
-  contactForm.reset();
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        access_key: "9a131bd9-b182-46b1-941c-baa40063e269",
+        name: name.value.trim(),
+        email: email.value.trim(),
+        subject: subject.value.trim(),
+        message: message.value.trim()
+      })
+    });
 
-  setTimeout(() => banner.remove(), 5000);
+    const result = await response.json();
+    const existingBanner = contactForm.querySelector('.success-banner');
+    if (existingBanner) existingBanner.remove();
+
+    const banner = document.createElement('div');
+    banner.className = 'success-banner';
+
+    if (response.status == 200) {
+      banner.textContent = 'Message sent successfully! I will get back to you soon.';
+      contactForm.appendChild(banner);
+      contactForm.reset();
+    } else {
+      banner.textContent = result.message || 'Something went wrong, please try again.';
+      contactForm.appendChild(banner);
+    }
+    
+    setTimeout(() => banner.remove(), 5000);
+  } catch (error) {
+    showError(submitBtn, 'Network error. Please try again later.');
+  } finally {
+    submitBtn.textContent = originalText;
+    submitBtn.disabled = false;
+  }
 });
 
 // Fix Back to Top button
