@@ -89,18 +89,36 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// ── 3. THEME TOGGLE ───────────────────────────────────
+// ── 3. THEME TOGGLE & GITHUB IMAGES ───────────────────
+function updateGithubImages(isLight) {
+  const statsImg = document.getElementById('githubStatsImg');
+  const langsImg = document.getElementById('githubLangsImg');
+  const activityImg = document.getElementById('githubActivityImg');
+
+  if (isLight) {
+    if (statsImg) statsImg.src = 'https://github-readme-stats.vercel.app/api?username=Astroidkiller&show_icons=true&theme=transparent&hide_border=true&title_color=7c3aed&icon_color=7c3aed&text_color=374151&count_private=true';
+    if (langsImg) langsImg.src = 'https://github-readme-stats.vercel.app/api/top-langs/?username=Astroidkiller&layout=compact&theme=transparent&hide_border=true&title_color=7c3aed&text_color=374151';
+    if (activityImg) activityImg.src = 'https://github-readme-activity-graph.vercel.app/graph?username=Astroidkiller&theme=github&hide_border=true&bg_color=00000000&color=7c3aed&line=7c3aed&point=7c3aed';
+  } else {
+    if (statsImg) statsImg.src = 'https://github-readme-stats.vercel.app/api?username=Astroidkiller&show_icons=true&theme=transparent&hide_border=true&title_color=a78bfa&icon_color=a78bfa&text_color=e2e8f0&count_private=true';
+    if (langsImg) langsImg.src = 'https://github-readme-stats.vercel.app/api/top-langs/?username=Astroidkiller&layout=compact&theme=transparent&hide_border=true&title_color=a78bfa&text_color=e2e8f0';
+    if (activityImg) activityImg.src = 'https://github-readme-activity-graph.vercel.app/graph?username=Astroidkiller&theme=react-dark&hide_border=true&bg_color=00000000&color=a78bfa&line=7c3aed&point=a78bfa';
+  }
+}
+
 const savedTheme = localStorage.getItem('portfolio-theme');
 if (savedTheme === 'light') {
   document.body.classList.add('light');
   if (themeToggle) themeToggle.textContent = '🌙';
 }
+updateGithubImages(document.body.classList.contains('light'));
 
 themeToggle?.addEventListener('click', () => {
   document.body.classList.toggle('light');
   const isLight = document.body.classList.contains('light');
   localStorage.setItem('portfolio-theme', isLight ? 'light' : 'dark');
   themeToggle.textContent = isLight ? '🌙' : '☀️';
+  updateGithubImages(isLight);
   // Bounce animation
   themeToggle.animate([
     { transform: 'scale(1)' },
@@ -124,48 +142,29 @@ reveals.forEach(el => revealObserver.observe(el));
 
 // ── 5. ACTIVE NAV LINK (scroll spy) ───────────────────
 const sections = document.querySelectorAll('main section[id]');
+const observerOptions = {
+  root: null,
+  rootMargin: '-30% 0px -50% 0px',
+  threshold: 0
+};
 
-window.addEventListener('scroll', () => {
-  const scrollY = window.pageYOffset;
-  sections.forEach(section => {
-    const top    = section.offsetTop - 140;
-    const height = section.offsetHeight;
-    const id     = section.getAttribute('id');
-    const link   = document.querySelector(`.nav-menu a[href="#${id}"]`);
-    if (scrollY >= top && scrollY < top + height) {
-      navLinks.forEach(l => l.classList.remove('active'));
-      link?.classList.add('active');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      const activeLink = document.querySelector(`.nav-menu a[href="#${id}"]`);
+      if (activeLink) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        activeLink.classList.add('active');
+      }
     }
   });
-}, { passive: true });
+}, observerOptions);
 
-// ── 6. PARALLAX CURSOR ORBS ───────────────────────────
-const orbs = document.querySelectorAll('.orb');
-let mouseX = window.innerWidth / 2;
-let mouseY = window.innerHeight / 2;
-let curX   = mouseX;
-let curY   = mouseY;
+sections.forEach(section => observer.observe(section));
 
-document.addEventListener('mousemove', e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-}, { passive: true });
-
-function lerp(a, b, t) { return a + (b - a) * t; }
-
-(function animateOrbs() {
-  curX = lerp(curX, mouseX, 0.04);
-  curY = lerp(curY, mouseY, 0.04);
-
-  const cx = curX / window.innerWidth  - 0.5;
-  const cy = curY / window.innerHeight - 0.5;
-
-  orbs[0]?.style.setProperty('transform', `translate(${cx * 40}px, ${cy * 30}px)`);
-  orbs[1]?.style.setProperty('transform', `translate(${-cx * 30}px, ${-cy * 40}px)`);
-  orbs[2]?.style.setProperty('transform', `translate(${cx * 20}px, ${cy * 50}px)`);
-
-  requestAnimationFrame(animateOrbs);
-})();
+// ── 6. PARALLAX CURSOR ORBS (Disabled for Performance) ──
+// Removed background orb parallax movement animation loop.
 
 // ── 7. GLASS CARD TILT (3D hover) ─────────────────────
 const tiltCards = document.querySelectorAll('.project-card, .github-card, .info-card');
@@ -349,10 +348,17 @@ progressBar.style.cssText = `
 `;
 document.body.appendChild(progressBar);
 
+let progressTicking = false;
 window.addEventListener('scroll', () => {
-  const total  = document.documentElement.scrollHeight - window.innerHeight;
-  const pct    = total > 0 ? (window.pageYOffset / total) * 100 : 0;
-  progressBar.style.width = pct + '%';
+  if (!progressTicking) {
+    window.requestAnimationFrame(() => {
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = total > 0 ? (window.pageYOffset / total) * 100 : 0;
+      progressBar.style.width = pct + '%';
+      progressTicking = false;
+    });
+    progressTicking = true;
+  }
 }, { passive: true });
 
 // ── 13. MINI CARD STAGGER REVEAL ──────────────────────
