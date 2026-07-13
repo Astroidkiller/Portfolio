@@ -69,12 +69,12 @@
 body.light {
   --bg-deep:   #f5f5f7;
   --bg-mid:    #ffffff;
-  --glass-fill:       rgba(255,255,255,0.52);
-  --glass-fill-hover: rgba(255,255,255,0.70);
-  --glass-stroke:     rgba(0,0,0,0.07);
-  --glass-stroke-top: rgba(255,255,255,0.90);
-  --spec-white:  rgba(255,255,255,0.80);
-  --spec-dim:    rgba(255,255,255,0.30);
+  --glass-fill:       rgba(255, 255, 255, 0.22);
+  --glass-fill-hover: rgba(255, 255, 255, 0.38);
+  --glass-stroke:     rgba(0, 0, 0, 0.05);
+  --glass-stroke-top: rgba(255, 255, 255, 0.65);
+  --spec-white:  rgba(255, 255, 255, 0.50);
+  --spec-dim:    rgba(255, 255, 255, 0.15);
   --blob-1: hsla(262, 45%, 65%, 0.05);
   --blob-2: hsla(210, 45%, 60%, 0.04);
   --blob-3: hsla(180, 35%, 50%, 0.03);
@@ -82,8 +82,8 @@ body.light {
   --text-primary:   hsl(220, 16%, 10%);
   --text-secondary: hsl(220, 12%, 36%);
   --text-tertiary:  hsl(220, 10%, 55%);
-  --shadow-card:   0 20px 50px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
-  --shadow-lifted: 0 30px 70px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.06);
+  --shadow-card:   0 20px 50px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
+  --shadow-lifted: 0 30px 70px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
 /* ── 2. RESET & BASE ──────────────────────────────────── */
@@ -1141,6 +1141,11 @@ body.light .success-banner {
 }
 
 /* ── 24. LIGHT MODE SPECIFICS ──────────────────────────── */
+body.light .nav-inner {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(0, 0, 0, 0.04);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
 body.light .nav-menu {
   background: rgba(250, 250, 255, 0.85);
   backdrop-filter: blur(28px);
@@ -1181,7 +1186,7 @@ body.light .highlight-name {
 }
 body.light .contact-card input,
 body.light .contact-card textarea {
-  background: rgba(255,255,255,0.75);
+  background: rgba(255, 255, 255, 0.45);
 }
 
 /* ── 25. SCROLL BAR ────────────────────────────────────── */
