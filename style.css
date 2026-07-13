@@ -6,8 +6,8 @@
 /* ── 1. DESIGN TOKENS ─────────────────────────────────── */
 :root {
   /* Background */
-  --bg-deep:    #050508;
-  --bg-mid:     #07080f;
+  --bg-deep:    #000000;
+  --bg-mid:     #161617;
 
   /* Glass layers */
   --glass-fill:        rgba(255,255,255,0.042);
@@ -67,8 +67,8 @@
 
 /* Light mode overrides */
 body.light {
-  --bg-deep:   hsl(220, 20%, 97%);
-  --bg-mid:    hsl(220, 18%, 93%);
+  --bg-deep:   #f5f5f7;
+  --bg-mid:    #ffffff;
   --glass-fill:       rgba(255,255,255,0.52);
   --glass-fill-hover: rgba(255,255,255,0.70);
   --glass-stroke:     rgba(0,0,0,0.07);
@@ -113,20 +113,15 @@ ul { list-style: none; }
   inset: 0;
   z-index: -2;
   overflow: hidden;
-  background: radial-gradient(ellipse at 20% 30%, var(--blob-1) 0%, transparent 55%),
-              radial-gradient(ellipse at 80% 15%, var(--blob-2) 0%, transparent 50%),
-              radial-gradient(ellipse at 60% 80%, var(--blob-3) 0%, transparent 50%),
-              radial-gradient(ellipse at 10% 70%, var(--blob-4) 0%, transparent 45%),
-              var(--bg-deep);
+  background: var(--bg-deep);
 }
 
 .liquid-bg::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: inherit;
-  filter: blur(80px);
-  opacity: 0.45;
+  background: linear-gradient(180deg, rgba(130, 80, 255, 0.04) 0%, transparent 100%);
+  pointer-events: none;
 }
 
 @keyframes bgDrift {
@@ -146,37 +141,7 @@ ul { list-style: none; }
   opacity: 0.5;
 }
 
-/* Floating orbs */
-.orb {
-  display: none;
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(72px);
-  pointer-events: none;
-  z-index: -1;
-  will-change: transform;
-}
-.orb-1 {
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, var(--blob-1), transparent 70%);
-  top: -120px; left: -120px;
-  animation: orbFloat1 18s ease-in-out infinite;
-}
-.orb-2 {
-  width: 420px; height: 420px;
-  background: radial-gradient(circle, var(--blob-2), transparent 70%);
-  top: 30%; right: -100px;
-  animation: orbFloat2 24s ease-in-out infinite;
-}
-.orb-3 {
-  width: 380px; height: 380px;
-  background: radial-gradient(circle, var(--blob-3), transparent 70%);
-  bottom: 10%; left: 25%;
-  animation: orbFloat3 20s ease-in-out infinite;
-}
-@keyframes orbFloat1 { 0%,100%{transform:translate(0,0) scale(1)}  50%{transform:translate(60px,40px) scale(1.1)} }
-@keyframes orbFloat2 { 0%,100%{transform:translate(0,0) scale(1)}  50%{transform:translate(-50px,60px) scale(1.08)} }
-@keyframes orbFloat3 { 0%,100%{transform:translate(0,0) scale(1)}  50%{transform:translate(40px,-50px) scale(1.12)} }
+/* Orbs removed for minimal Apple UI style */
 
 /* ── 4. APPLE LIQUID GLASS MIXIN ──────────────────────── */
 .glass {
@@ -198,29 +163,7 @@ ul { list-style: none; }
               transform var(--t-base) var(--ease-spring);
 }
 
-/* Specular shimmer pseudo-element */
-.glass::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -60%;
-  width: 50%; height: 100%;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    var(--spec-dim) 45%,
-    var(--spec-white) 50%,
-    var(--spec-dim) 55%,
-    transparent 100%);
-  transform: skewX(-20deg);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease, left 0.6s var(--ease-smooth);
-  z-index: 1;
-}
-
-.glass:hover::before {
-  opacity: 1;
-  left: 120%;
-}
+/* Glass card shimmers removed for minimal Apple UI style */
 
 .glass:hover {
   background: var(--glass-fill-hover);
@@ -421,20 +364,10 @@ ul { list-style: none; }
 }
 
 .gradient-text {
-  background: linear-gradient(135deg,
-    var(--accent-1) 0%,
-    var(--accent-2) 40%,
-    var(--accent-3) 100%);
+  background: linear-gradient(135deg, #ffffff 40%, var(--accent-1) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  background-size: 200% 200%;
-  animation: gradientShift 6s ease infinite;
-}
-@keyframes gradientShift {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 .hero-description {
@@ -448,7 +381,7 @@ ul { list-style: none; }
 .highlight-name {
   color: var(--text-primary);
   font-weight: 700;
-  background: linear-gradient(135deg, var(--text-primary), var(--accent-4));
+  background: linear-gradient(135deg, #ffffff 40%, var(--accent-4) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -1235,10 +1168,13 @@ body.light .menu-toggle:hover {
   background: rgba(0, 0, 0, 0.08);
 }
 body.light .gradient-text {
-  background: linear-gradient(135deg,
-    hsl(262, 80%, 50%) 0%,
-    hsl(210, 80%, 45%) 40%,
-    hsl(185, 75%, 40%) 100%);
+  background: linear-gradient(135deg, #1d1d1f 40%, hsl(262, 80%, 50%) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+body.light .highlight-name {
+  background: linear-gradient(135deg, #1d1d1f 40%, hsl(280, 75%, 50%) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
