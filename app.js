@@ -1,86 +1,95 @@
+/* ═══════════════════════════════════════════════════════
+   Apple Liquid Glass Portfolio — app.js
+   Enhanced micro-interactions & animations
+   ═══════════════════════════════════════════════════════ */
+
+'use strict';
+
+// ── 1. TYPEWRITER ─────────────────────────────────────
 const typingTexts = [
   'CSE Student at VIT-AP',
   'GenAI & LLM Enthusiast',
-  'RAG Project Builder',
-  'Python & Streamlit Developer',
-  'Frontend Learner with Product Focus'
+  'RAG Pipeline Builder',
+  'Python & TypeScript Developer',
+  'Multi-Agent AI Explorer',
+  'Frontend Craftsperson'
 ];
-
-const typedText = document.getElementById('typedText');
-const menuToggle = document.getElementById('menuToggle');
-const navMenu = document.getElementById('navMenu');
-const themeToggle = document.getElementById('themeToggle');
-const navLinks = document.querySelectorAll('.nav-menu a');
-const reveals = document.querySelectorAll('.reveal');
-const meterFills = document.querySelectorAll('.meter-fill');
-const contactForm = document.getElementById('contactForm');
 
 class TypeWriter {
   constructor(element, words) {
-    this.element = element;
+    this.el = element;
     this.words = words;
-    this.wordIndex = 0;
-    this.charIndex = 0;
-    this.isDeleting = false;
-    this.type();
+    this.wordIdx = 0;
+    this.charIdx = 0;
+    this.deleting = false;
+    this.tick();
   }
-
-  type() {
-    const current = this.words[this.wordIndex];
-
-    if (this.isDeleting) {
-      this.charIndex--;
+  tick() {
+    const word = this.words[this.wordIdx];
+    if (this.deleting) {
+      this.charIdx--;
     } else {
-      this.charIndex++;
+      this.charIdx++;
     }
-
-    this.element.textContent = current.slice(0, this.charIndex);
-
-    let speed = this.isDeleting ? 45 : 85;
-
-    if (!this.isDeleting && this.charIndex === current.length) {
-      speed = 1400;
-      this.isDeleting = true;
-    } else if (this.isDeleting && this.charIndex === 0) {
-      this.isDeleting = false;
-      this.wordIndex = (this.wordIndex + 1) % this.words.length;
-      speed = 350;
+    this.el.textContent = word.slice(0, this.charIdx);
+    let speed = this.deleting ? 40 : 78;
+    if (!this.deleting && this.charIdx === word.length) {
+      speed = 1600;
+      this.deleting = true;
+    } else if (this.deleting && this.charIdx === 0) {
+      this.deleting = false;
+      this.wordIdx = (this.wordIdx + 1) % this.words.length;
+      speed = 320;
     }
-
-    setTimeout(() => this.type(), speed);
+    setTimeout(() => this.tick(), speed);
   }
 }
 
-if (typedText) {
-  new TypeWriter(typedText, typingTexts);
-}
+const typedEl = document.getElementById('typedText');
+if (typedEl) new TypeWriter(typedEl, typingTexts);
+
+// ── 2. NAVIGATION ─────────────────────────────────────
+const menuToggle = document.getElementById('menuToggle');
+const navMenu    = document.getElementById('navMenu');
+const navLinks   = document.querySelectorAll('.nav-menu a');
+const themeToggle = document.getElementById('themeToggle');
 
 menuToggle?.addEventListener('click', () => {
-  navMenu.classList.toggle('open');
+  const isOpen = navMenu.classList.toggle('open');
+  menuToggle.setAttribute('aria-expanded', isOpen);
+  // Animate hamburger → X
+  const spans = menuToggle.querySelectorAll('span');
+  if (isOpen) {
+    spans[0].style.transform = 'rotate(45deg) translate(4px, 4px)';
+    spans[1].style.opacity   = '0';
+    spans[2].style.transform = 'rotate(-45deg) translate(4px, -4px)';
+  } else {
+    spans[0].style.transform = '';
+    spans[1].style.opacity   = '';
+    spans[2].style.transform = '';
+  }
 });
 
-navLinks.forEach((link) => {
-  link.addEventListener('click', () => navMenu.classList.remove('open'));
-});
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-
-      if (entry.target.id === 'skills') {
-        meterFills.forEach((fill) => {
-          fill.style.width = `${fill.dataset.width}%`;
-        });
-      }
-    }
+navLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    navMenu.classList.remove('open');
+    menuToggle?.setAttribute('aria-expanded', 'false');
+    const spans = menuToggle?.querySelectorAll('span');
+    spans?.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
   });
-}, { threshold: 0.14 });
+});
 
-reveals.forEach((item) => observer.observe(item));
-const skillsSection = document.getElementById('skills');
-if (skillsSection) observer.observe(skillsSection);
+// Close menu on outside click
+document.addEventListener('click', (e) => {
+  if (navMenu?.classList.contains('open') &&
+      !navMenu.contains(e.target) &&
+      !menuToggle?.contains(e.target)) {
+    navMenu.classList.remove('open');
+    menuToggle?.setAttribute('aria-expanded', 'false');
+  }
+});
 
+// ── 3. THEME TOGGLE ───────────────────────────────────
 const savedTheme = localStorage.getItem('portfolio-theme');
 if (savedTheme === 'light') {
   document.body.classList.add('light');
@@ -92,121 +101,288 @@ themeToggle?.addEventListener('click', () => {
   const isLight = document.body.classList.contains('light');
   localStorage.setItem('portfolio-theme', isLight ? 'light' : 'dark');
   themeToggle.textContent = isLight ? '🌙' : '☀️';
+  // Bounce animation
+  themeToggle.animate([
+    { transform: 'scale(1)' },
+    { transform: 'scale(1.3) rotate(20deg)' },
+    { transform: 'scale(1) rotate(0deg)' }
+  ], { duration: 360, easing: 'cubic-bezier(0.34,1.56,0.64,1)' });
 });
 
-window.addEventListener('scroll', () => {
-  const sections = document.querySelectorAll('main section[id]');
-  const scrollY = window.pageYOffset;
-
-  sections.forEach((section) => {
-    const sectionTop = section.offsetTop - 120;
-    const sectionHeight = section.offsetHeight;
-    const id = section.getAttribute('id');
-    const navLink = document.querySelector(`.nav-menu a[href="#${id}"]`);
-
-    if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-      navLinks.forEach((link) => link.classList.remove('active'));
-      navLink?.classList.add('active');
+// ── 4. SCROLL REVEAL (IntersectionObserver) ───────────
+const reveals = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target); // fire once
     }
+  });
+}, { threshold: 0.10, rootMargin: '0px 0px -40px 0px' });
+
+reveals.forEach(el => revealObserver.observe(el));
+
+// ── 5. ACTIVE NAV LINK (scroll spy) ───────────────────
+const sections = document.querySelectorAll('main section[id]');
+
+window.addEventListener('scroll', () => {
+  const scrollY = window.pageYOffset;
+  sections.forEach(section => {
+    const top    = section.offsetTop - 140;
+    const height = section.offsetHeight;
+    const id     = section.getAttribute('id');
+    const link   = document.querySelector(`.nav-menu a[href="#${id}"]`);
+    if (scrollY >= top && scrollY < top + height) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      link?.classList.add('active');
+    }
+  });
+}, { passive: true });
+
+// ── 6. PARALLAX CURSOR ORBS ───────────────────────────
+const orbs = document.querySelectorAll('.orb');
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+let curX   = mouseX;
+let curY   = mouseY;
+
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+}, { passive: true });
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+
+(function animateOrbs() {
+  curX = lerp(curX, mouseX, 0.04);
+  curY = lerp(curY, mouseY, 0.04);
+
+  const cx = curX / window.innerWidth  - 0.5;
+  const cy = curY / window.innerHeight - 0.5;
+
+  orbs[0]?.style.setProperty('transform', `translate(${cx * 40}px, ${cy * 30}px)`);
+  orbs[1]?.style.setProperty('transform', `translate(${-cx * 30}px, ${-cy * 40}px)`);
+  orbs[2]?.style.setProperty('transform', `translate(${cx * 20}px, ${cy * 50}px)`);
+
+  requestAnimationFrame(animateOrbs);
+})();
+
+// ── 7. GLASS CARD TILT (3D hover) ─────────────────────
+const tiltCards = document.querySelectorAll('.project-card, .github-card, .info-card');
+
+tiltCards.forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect   = card.getBoundingClientRect();
+    const x      = (e.clientX - rect.left) / rect.width  - 0.5;
+    const y      = (e.clientY - rect.top)  / rect.height - 0.5;
+    const tiltX  = y * -8;
+    const tiltY  = x *  8;
+    card.style.transform = `translateY(-6px) scale(1.01) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+    card.style.transition = 'transform 0.1s ease';
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.transform  = '';
+    card.style.transition = 'transform 0.5s cubic-bezier(0.34,1.56,0.64,1)';
   });
 });
 
-function showError(input, message) {
+// ── 8. CONTACT FORM ───────────────────────────────────
+const contactForm = document.getElementById('contactForm');
+
+function showError(input, msg) {
+  clearError(input);
+  const err = document.createElement('span');
+  err.className = 'error-text';
+  err.textContent = msg;
+  input.insertAdjacentElement('afterend', err);
+  input.style.borderColor = 'rgba(255,80,100,0.6)';
+}
+
+function clearError(input) {
   const existing = input.parentElement.querySelector('.error-text');
   if (existing) existing.remove();
-
-  const error = document.createElement('span');
-  error.className = 'error-text';
-  error.textContent = message;
-  input.insertAdjacentElement('afterend', error);
+  input.style.borderColor = '';
 }
 
-function clearErrors() {
-  document.querySelectorAll('.error-text').forEach((item) => item.remove());
+function clearAllErrors() {
+  document.querySelectorAll('.error-text').forEach(e => e.remove());
+  document.querySelectorAll('.contact-card input, .contact-card textarea').forEach(i => {
+    i.style.borderColor = '';
+  });
 }
 
-contactForm?.addEventListener('submit', async (e) => {
+contactForm?.addEventListener('submit', async e => {
   e.preventDefault();
-  clearErrors();
+  clearAllErrors();
 
-  const name = document.getElementById('name');
-  const email = document.getElementById('email');
+  const name    = document.getElementById('name');
+  const email   = document.getElementById('email');
   const subject = document.getElementById('subject');
   const message = document.getElementById('message');
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   let valid = true;
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if (name.value.trim().length < 2) {
-    showError(name, 'Please enter at least 2 characters.');
-    valid = false;
-  }
-  if (!emailPattern.test(email.value.trim())) {
-    showError(email, 'Please enter a valid email address.');
-    valid = false;
-  }
-  if (subject.value.trim().length < 4) {
-    showError(subject, 'Subject should be at least 4 characters.');
-    valid = false;
-  }
-  if (message.value.trim().length < 10) {
-    showError(message, 'Message should be at least 10 characters.');
-    valid = false;
-  }
-
+  if (name.value.trim().length < 2)       { showError(name, 'Please enter at least 2 characters.'); valid = false; }
+  if (!emailRe.test(email.value.trim()))   { showError(email, 'Please enter a valid email address.'); valid = false; }
+  if (subject.value.trim().length < 4)    { showError(subject, 'Subject should be at least 4 characters.'); valid = false; }
+  if (message.value.trim().length < 10)   { showError(message, 'Message should be at least 10 characters.'); valid = false; }
   if (!valid) return;
 
-  const submitBtn = contactForm.querySelector('button[type="submit"]');
-  const originalText = submitBtn.textContent;
-  submitBtn.textContent = 'Sending...';
-  submitBtn.disabled = true;
+  const btn = contactForm.querySelector('button[type="submit"]');
+  const orig = btn.textContent;
+  btn.textContent = 'Sending…';
+  btn.disabled    = true;
 
   try {
-    const response = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
+    const res  = await fetch('https://api.web3forms.com/submit', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
-        access_key: "9a131bd9-b182-46b1-941c-baa40063e269",
-        name: name.value.trim(),
-        email: email.value.trim(),
+        access_key: '9a131bd9-b182-46b1-941c-baa40063e269',
+        name:    name.value.trim(),
+        email:   email.value.trim(),
         subject: subject.value.trim(),
         message: message.value.trim()
       })
     });
+    const data = await res.json();
 
-    const result = await response.json();
-    const existingBanner = contactForm.querySelector('.success-banner');
-    if (existingBanner) existingBanner.remove();
+    // Remove old banner
+    contactForm.querySelector('.success-banner')?.remove();
 
     const banner = document.createElement('div');
     banner.className = 'success-banner';
+    banner.textContent = res.ok
+      ? '✅ Message sent! I will get back to you soon.'
+      : data.message || 'Something went wrong, please try again.';
+    contactForm.appendChild(banner);
 
-    if (response.status == 200) {
-      banner.textContent = 'Message sent successfully! I will get back to you soon.';
-      contactForm.appendChild(banner);
+    if (res.ok) {
       contactForm.reset();
-    } else {
-      banner.textContent = result.message || 'Something went wrong, please try again.';
-      contactForm.appendChild(banner);
+      banner.animate([{ opacity:0, transform:'translateY(6px)' }, { opacity:1, transform:'translateY(0)' }],
+        { duration:400, easing:'ease', fill:'both' });
     }
-    
-    setTimeout(() => banner.remove(), 5000);
-  } catch (error) {
-    showError(submitBtn, 'Network error. Please try again later.');
+
+    setTimeout(() => {
+      banner.animate([{ opacity:1 }, { opacity:0 }], { duration:400, fill:'both' })
+            .onfinish = () => banner.remove();
+    }, 6000);
+
+  } catch {
+    showError(btn, 'Network error. Please try again later.');
   } finally {
-    submitBtn.textContent = originalText;
-    submitBtn.disabled = false;
+    btn.textContent = orig;
+    btn.disabled    = false;
   }
 });
 
-// Fix Back to Top button
-const backToTopBtn = document.querySelector('a[href="#top"]');
-if (backToTopBtn) {
-  backToTopBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+// ── 9. SMOOTH BACK TO TOP ─────────────────────────────
+const backToTop = document.querySelector('#back-to-top');
+backToTop?.addEventListener('click', e => {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ── 10. BUTTON RIPPLE EFFECT ──────────────────────────
+document.querySelectorAll('.btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    const rect = this.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const ripple = document.createElement('span');
+    ripple.style.cssText = `
+      position:absolute;
+      width:4px; height:4px;
+      background:rgba(255,255,255,0.5);
+      border-radius:50%;
+      transform:translate(-50%,-50%) scale(0);
+      left:${x}px; top:${y}px;
+      pointer-events:none;
+      z-index:10;
+    `;
+    this.style.position = 'relative';
+    this.style.overflow = 'hidden';
+    this.appendChild(ripple);
+
+    ripple.animate(
+      [{ transform:'translate(-50%,-50%) scale(0)', opacity:1 },
+       { transform:`translate(-50%,-50%) scale(${Math.max(rect.width, rect.height) * 0.5})`, opacity:0 }],
+      { duration: 600, easing: 'ease-out', fill: 'forwards' }
+    ).onfinish = () => ripple.remove();
   });
-}
+});
+
+// ── 11. SKILL TAGS STAGGER ON HOVER ───────────────────
+document.querySelectorAll('.tag-row').forEach(row => {
+  const tags = row.querySelectorAll('span');
+  row.addEventListener('mouseenter', () => {
+    tags.forEach((t, i) => {
+      setTimeout(() => {
+        t.style.transform = 'scale(1.08)';
+        t.style.background = 'rgba(130,80,255,0.14)';
+        t.style.borderColor = 'rgba(130,80,255,0.30)';
+      }, i * 30);
+    });
+  });
+  row.addEventListener('mouseleave', () => {
+    tags.forEach(t => {
+      t.style.transform = '';
+      t.style.background = '';
+      t.style.borderColor = '';
+    });
+  });
+});
+
+// ── 12. SCROLL PROGRESS INDICATOR ─────────────────────
+const progressBar = document.createElement('div');
+progressBar.style.cssText = `
+  position:fixed;
+  top:0; left:0;
+  height:2px;
+  background:linear-gradient(90deg, #8253ff, #60a5fa, #34d399);
+  width:0%;
+  z-index:9999;
+  transition:width 0.1s linear;
+  pointer-events:none;
+`;
+document.body.appendChild(progressBar);
+
+window.addEventListener('scroll', () => {
+  const total  = document.documentElement.scrollHeight - window.innerHeight;
+  const pct    = total > 0 ? (window.pageYOffset / total) * 100 : 0;
+  progressBar.style.width = pct + '%';
+}, { passive: true });
+
+// ── 13. MINI CARD STAGGER REVEAL ──────────────────────
+// Already handled by reveal + delay-1/2 classes above.
+// Additional: add glow pulse on cert cards when they enter
+const miniCards = document.querySelectorAll('.mini-card');
+const miniObserver = new IntersectionObserver(entries => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.style.boxShadow =
+          '0 0 0 1px rgba(130,80,255,0.25), 0 32px 64px rgba(0,0,0,0.55)';
+        setTimeout(() => { entry.target.style.boxShadow = ''; }, 900);
+      }, i * 80);
+      miniObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+miniCards.forEach(c => miniObserver.observe(c));
+
+// ── 14. HERO ENTRANCE ANIMATION (no GSAP dependency) ──
+window.addEventListener('load', () => {
+  const heroContent = document.querySelector('.hero-content');
+  if (heroContent) {
+    heroContent.style.opacity = '0';
+    heroContent.style.transform = 'translateY(32px)';
+    requestAnimationFrame(() => {
+      heroContent.style.transition = 'opacity 0.9s cubic-bezier(0.23,1,0.32,1), transform 0.9s cubic-bezier(0.34,1.56,0.64,1)';
+      heroContent.style.opacity   = '1';
+      heroContent.style.transform = 'translateY(0)';
+    });
+  }
+});
