@@ -320,8 +320,8 @@ document.querySelectorAll('.tag-row').forEach(row => {
     tags.forEach((t, i) => {
       setTimeout(() => {
         t.style.transform = 'scale(1.08)';
-        t.style.background = 'rgba(130,80,255,0.14)';
-        t.style.borderColor = 'rgba(130,80,255,0.30)';
+        t.style.background = 'rgba(10, 132, 255, 0.10)';
+        t.style.borderColor = 'rgba(10, 132, 255, 0.20)';
       }, i * 30);
     });
   });
@@ -340,7 +340,7 @@ progressBar.style.cssText = `
   position:fixed;
   top:0; left:0;
   height:2px;
-  background:linear-gradient(90deg, #8253ff, #60a5fa, #34d399);
+  background:linear-gradient(90deg, #007aff, #0a84ff, #60a5fa);
   width:0%;
   z-index:9999;
   transition:width 0.1s linear;
@@ -370,7 +370,7 @@ const miniObserver = new IntersectionObserver(entries => {
     if (entry.isIntersecting) {
       setTimeout(() => {
         entry.target.style.boxShadow =
-          '0 0 0 1px rgba(130,80,255,0.25), 0 32px 64px rgba(0,0,0,0.55)';
+          '0 0 0 1px rgba(10, 132, 255, 0.15), 0 32px 64px rgba(0,0,0,0.55)';
         setTimeout(() => { entry.target.style.boxShadow = ''; }, 900);
       }, i * 80);
       miniObserver.unobserve(entry.target);
