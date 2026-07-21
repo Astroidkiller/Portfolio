@@ -109,22 +109,18 @@ function updateGithubImages(isLight) {
 const savedTheme = localStorage.getItem('portfolio-theme');
 if (savedTheme === 'light') {
   document.body.classList.add('light');
-  if (themeToggle) themeToggle.textContent = '🌙';
+}
+if (themeToggle) {
+  themeToggle.checked = !document.body.classList.contains('light');
 }
 updateGithubImages(document.body.classList.contains('light'));
 
-themeToggle?.addEventListener('click', () => {
-  document.body.classList.toggle('light');
-  const isLight = document.body.classList.contains('light');
+themeToggle?.addEventListener('change', () => {
+  const isDark = themeToggle.checked;
+  document.body.classList.toggle('light', !isDark);
+  const isLight = !isDark;
   localStorage.setItem('portfolio-theme', isLight ? 'light' : 'dark');
-  themeToggle.textContent = isLight ? '🌙' : '☀️';
   updateGithubImages(isLight);
-  // Bounce animation
-  themeToggle.animate([
-    { transform: 'scale(1)' },
-    { transform: 'scale(1.3) rotate(20deg)' },
-    { transform: 'scale(1) rotate(0deg)' }
-  ], { duration: 360, easing: 'cubic-bezier(0.34,1.56,0.64,1)' });
 });
 
 // ── 4. SCROLL REVEAL (IntersectionObserver) ───────────

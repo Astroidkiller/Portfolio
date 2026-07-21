@@ -38,7 +38,33 @@
       </nav>
 
       <div class="nav-actions">
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">☀️</button>
+        <label class="switch" title="Toggle light/dark mode">
+          <input type="checkbox" id="themeToggle" aria-label="Toggle light/dark mode" />
+          <span class="slider round">
+            <div class="sun-moon">
+              <svg class="moon-dot" id="moon-dot-1" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></svg>
+              <svg class="moon-dot" id="moon-dot-2" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></svg>
+              <svg class="moon-dot" id="moon-dot-3" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></svg>
+              <svg id="light-ray-1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"/></svg>
+              <svg id="light-ray-2" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"/></svg>
+              <svg id="light-ray-3" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"/></svg>
+            </div>
+            <!-- Clouds -->
+            <svg class="cloud-light" id="cloud-1" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+            <svg class="cloud-dark" id="cloud-2" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+            <svg class="cloud-light" id="cloud-3" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+            <svg class="cloud-dark" id="cloud-4" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+            <svg class="cloud-light" id="cloud-5" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+            <svg class="cloud-dark" id="cloud-6" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+            <!-- Stars -->
+            <div class="stars">
+              <svg class="star" id="star-1" viewBox="0 0 20 20"><path d="M10 0 L12.5 7.5 L20 10 L12.5 12.5 L10 20 L7.5 12.5 L0 10 L7.5 7.5 Z"/></svg>
+              <svg class="star" id="star-2" viewBox="0 0 20 20"><path d="M10 0 L12.5 7.5 L20 10 L12.5 12.5 L10 20 L7.5 12.5 L0 10 L7.5 7.5 Z"/></svg>
+              <svg class="star" id="star-3" viewBox="0 0 20 20"><path d="M10 0 L12.5 7.5 L20 10 L12.5 12.5 L10 20 L7.5 12.5 L0 10 L7.5 7.5 Z"/></svg>
+              <svg class="star" id="star-4" viewBox="0 0 20 20"><path d="M10 0 L12.5 7.5 L20 10 L12.5 12.5 L10 20 L7.5 12.5 L0 10 L7.5 7.5 Z"/></svg>
+            </div>
+          </span>
+        </label>
         <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
