@@ -115,12 +115,20 @@ if (themeToggle) {
 }
 updateGithubImages(document.body.classList.contains('light'));
 
+let themeTimeout;
 themeToggle?.addEventListener('change', () => {
+  document.body.classList.add('theme-transitioning');
+  clearTimeout(themeTimeout);
+
   const isDark = themeToggle.checked;
   document.body.classList.toggle('light', !isDark);
   const isLight = !isDark;
   localStorage.setItem('portfolio-theme', isLight ? 'light' : 'dark');
   updateGithubImages(isLight);
+
+  themeTimeout = setTimeout(() => {
+    document.body.classList.remove('theme-transitioning');
+  }, 650);
 });
 
 // ── 4. SCROLL REVEAL (IntersectionObserver) ───────────

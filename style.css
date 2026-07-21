@@ -102,6 +102,20 @@ body {
               color var(--t-slow) var(--ease-smooth);
 }
 
+/* ── SMOOTH THEME TRANSITION ────────────────────────── */
+body.theme-transitioning,
+body.theme-transitioning *,
+body.theme-transitioning *::before,
+body.theme-transitioning *::after {
+  transition: background-color 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              fill 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              stroke 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
 button, input, textarea, select { font: inherit; }
