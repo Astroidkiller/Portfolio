@@ -96,13 +96,13 @@ function updateGithubImages(isLight) {
   const activityImg = document.getElementById('githubActivityImg');
 
   if (isLight) {
-    if (statsImg) statsImg.src = 'https://github-readme-stats.vercel.app/api?username=Astroidkiller&show_icons=true&theme=transparent&hide_border=true&title_color=7c3aed&icon_color=7c3aed&text_color=374151&count_private=true';
-    if (langsImg) langsImg.src = 'https://github-readme-stats.vercel.app/api/top-langs/?username=Astroidkiller&layout=compact&theme=transparent&hide_border=true&title_color=7c3aed&text_color=374151';
-    if (activityImg) activityImg.src = 'https://github-readme-activity-graph.vercel.app/graph?username=Astroidkiller&theme=github&hide_border=true&bg_color=00000000&color=7c3aed&line=7c3aed&point=7c3aed';
+    if (statsImg) statsImg.src = 'https://github-readme-stats-anuraghazra.vercel.app/api?username=Astroidkiller&show_icons=true&theme=transparent&hide_border=true&title_color=007aff&icon_color=007aff&text_color=374151&count_private=true';
+    if (langsImg) langsImg.src = 'https://github-readme-stats-anuraghazra.vercel.app/api/top-langs/?username=Astroidkiller&layout=compact&theme=transparent&hide_border=true&title_color=007aff&text_color=374151';
+    if (activityImg) activityImg.src = 'https://github-readme-activity-graph.vercel.app/graph?username=Astroidkiller&theme=github&hide_border=true&bg_color=00000000&color=007aff&line=007aff&point=007aff';
   } else {
-    if (statsImg) statsImg.src = 'https://github-readme-stats.vercel.app/api?username=Astroidkiller&show_icons=true&theme=transparent&hide_border=true&title_color=a78bfa&icon_color=a78bfa&text_color=e2e8f0&count_private=true';
-    if (langsImg) langsImg.src = 'https://github-readme-stats.vercel.app/api/top-langs/?username=Astroidkiller&layout=compact&theme=transparent&hide_border=true&title_color=a78bfa&text_color=e2e8f0';
-    if (activityImg) activityImg.src = 'https://github-readme-activity-graph.vercel.app/graph?username=Astroidkiller&theme=react-dark&hide_border=true&bg_color=00000000&color=a78bfa&line=7c3aed&point=a78bfa';
+    if (statsImg) statsImg.src = 'https://github-readme-stats-anuraghazra.vercel.app/api?username=Astroidkiller&show_icons=true&theme=transparent&hide_border=true&title_color=0a84ff&icon_color=0a84ff&text_color=e2e8f0&count_private=true';
+    if (langsImg) langsImg.src = 'https://github-readme-stats-anuraghazra.vercel.app/api/top-langs/?username=Astroidkiller&layout=compact&theme=transparent&hide_border=true&title_color=0a84ff&text_color=e2e8f0';
+    if (activityImg) activityImg.src = 'https://github-readme-activity-graph.vercel.app/graph?username=Astroidkiller&theme=react-dark&hide_border=true&bg_color=00000000&color=0a84ff&line=007aff&point=0a84ff';
   }
 }
 
